@@ -2,11 +2,25 @@ const Post = require('../models/post')
 
 async function getPosts(category) {
   const options = category ? { category } : {}
-  const posts = await Post.find(options).populate('comments').exec()
+  const allPosts = await Post.find(options).populate('comments').exec()
+
+  function categorifyPosts(allPosts) {
+    const categorizedPosts = {
+      wentWell: [],
+      toImprove: [],
+      kudos: [],
+    }
+
+    allPosts.forEach((post) => {
+      categorizedPosts[post.category].push(post)
+    })
+
+    return categorizedPosts
+  }
 
   const response = {
-    totalPosts: posts.length,
-    posts,
+    totalPosts: allPosts.length,
+    posts: categorifyPosts(allPosts),
   }
 
   return response

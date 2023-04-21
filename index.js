@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
+const cors = require('cors')
 const PORT = process.env.PORT || 3000
 const commentsRouter = require('./routes/comment.router')
 const postsRouter = require('./routes/post.router')
@@ -20,6 +21,9 @@ mongoose
   .catch((err) => {
     console.log(err)
   })
+
+//cors
+app.use(cors())
 
 // middleware
 app.use(express.json())
