@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const controller = require('../controllers/posts.controller')
 
 router.get('/posts', async (req, res) => {
   const category = req.query.category

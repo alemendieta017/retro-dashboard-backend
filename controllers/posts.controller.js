@@ -2,7 +2,7 @@ const Post = require('../models/post')
 
 async function getPosts(category) {
   const options = category ? { category } : {}
-  const posts = await Post.find(options)
+  const posts = await Post.find(options).populate('comments').exec()
 
   const response = {
     totalPosts: posts.length,

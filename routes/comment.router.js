@@ -8,8 +8,9 @@ router.get('/comments', async (req, res) => {
 })
 
 router.post('/createComment', async (req, res) => {
-  const content = req.body
-  const response = await controller.createComment(content)
+  const postId = req.body.postId
+  const content = req.body.content
+  const response = await controller.createComment(postId, content)
   res.send(response)
 })
 
