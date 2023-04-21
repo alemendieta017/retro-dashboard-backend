@@ -26,6 +26,12 @@ app.use(express.json())
 app.use(postsRouter)
 app.use(commentsRouter)
 
+// error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).send('Algo salio mal!')
+})
+
 // server
 app.listen(PORT, () => {
   console.log('Server is running on port ' + PORT)

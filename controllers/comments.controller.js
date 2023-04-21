@@ -12,9 +12,21 @@ async function createComment(postId, content) {
     postId,
     { $push: { comments: newComment._id } },
     { new: true }
-  )
+  ).populate('comments')
 
-  return { newComment, post } // return both the new comment and the post
+  return post
 }
 
-module.exports = { getComments, createComment }
+async function deleteComment(id) {
+  const commentDeleted = await Comment.findByIdAndDelete(id)
+  return commentDeleted
+}
+
+async function updateComment(id, content) {
+  const updatedComment = await Comment.findByIdAndUpdate(id, content, {
+    new: true,
+  })
+  return updatedComment
+}
+
+module.exports = { getComments, createComment, deleteComment, updateComment }

@@ -17,4 +17,14 @@ async function createPost(content) {
   return newPost
 }
 
-module.exports = { getPosts, createPost }
+async function updatePost(id, content) {
+  const postUpdated = await Post.findByIdAndUpdate(id, content, { new: true })
+  return postUpdated
+}
+
+async function deletePost(id) {
+  const postDeleted = await Post.findByIdAndDelete(id)
+  return postDeleted
+}
+
+module.exports = { getPosts, createPost, updatePost, deletePost }
