@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
+const server = require('http').createServer(app)
+const socketIo = require('socket.io')
 const cors = require('cors')
 const PORT = process.env.PORT || 3000
 const commentsRouter = require('./routes/comment.router')
@@ -36,7 +38,21 @@ app.use((err, req, res, next) => {
   res.status(500).send('Algo salio mal!')
 })
 
+// socket.io
+
+const io = socketIo(server, {
+  cors: {
+    origin: '*',
+  },
+})
+
+io.on('connection', (socket) => {
+  console.log('a user connected ' + socket.id, new Date()) // socket.id is unique for each connection
+})
+
+app.set('io', io)
+
 // server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log('Server is running on port ' + PORT)
 })
