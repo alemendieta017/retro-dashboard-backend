@@ -19,7 +19,12 @@ async function createComment(postId, content) {
 
 async function deleteComment(id) {
   const commentDeleted = await Comment.findByIdAndDelete(id)
-  return commentDeleted
+  const post = await Post.findByIdAndUpdate(
+    commentDeleted.postId,
+    { $pull: { comments: commentDeleted._id } },
+    { new: true }
+  ).populate('comments')
+  return { post, commentDeleted }
 }
 
 async function updateComment(id, content) {

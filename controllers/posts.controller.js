@@ -32,7 +32,9 @@ async function createPost(content) {
 }
 
 async function updatePost(id, content) {
-  const postUpdated = await Post.findByIdAndUpdate(id, content, { new: true })
+  const postUpdated = await Post.findByIdAndUpdate(id, content, {
+    new: true,
+  }).populate('comments')
   return postUpdated
 }
 
